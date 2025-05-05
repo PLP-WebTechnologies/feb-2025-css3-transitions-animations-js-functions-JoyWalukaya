@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Animations & Local Storage Example</title>
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 32px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    /* Animation */
+    .button.animate {
+      animation: bounce 0.6s ease forwards;
+    }
+
+    @keyframes bounce {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .preferences {
+      margin-top: 30px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>CSS Animations & Local Storage Example</h1>
+
+  <button id="animateBtn" class="button">Click to Animate</button>
+
+  <div class="preferences" id="preferencesBox">
+    <!-- User preferences will be shown here -->
+  </div>
+
+  <script>
+    // Function to store user preferences in localStorage
+    function storePreferences(preference) {
+      localStorage.setItem('userPreference', preference);
+    }
+
+    // retrueving preferences
+    function retrievePreferences() {
+      const preference = localStorage.getItem('userPreference');
+      const preferencesBox = document.getElementById('preferencesBox');
+      if (preference) {
+        preferencesBox.textContent = `Your preference: ${preference}`;
+      } else {
+        preferencesBox.textContent = 'No preferences stored.';
+      }
+    }
+
+    // upon clicking the button
+    const animateBtn = document.getElementById('animateBtn');
+    animateBtn.addEventListener('click', function() {
+      animateBtn.classList.add('animate');  // Trigger animation
+
+      // Store user preference after the animation
+      storePreferences('Button Clicked and Animated');
+      
+      // Wait for animation to finish before removing the animation class
+      setTimeout(function() {
+        animateBtn.classList.remove('animate');
+      }, 600); // Matches the duration of the animation (0.6s)
+
+      retrievePreferences();
+    });
+
+    // Retrieve preferences when the page loads
+    retrievePreferences();
+  </script>
+
+</body>
+</html>
